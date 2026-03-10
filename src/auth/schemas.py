@@ -23,3 +23,7 @@ class UserModel(BaseModel):
 
     class Config:
         from_attributes = True  # important for SQLModel
+
+class UserLoginModel(BaseModel):
+    email:str=Field(max_length=40)
+    password:str=Field(max_length=10)

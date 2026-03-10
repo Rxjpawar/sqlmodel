@@ -21,4 +21,4 @@ app  = FastAPI(
 )
 
 app.include_router(book_router,prefix=f"/api/{version}/books")
-app.include_router(auth_router,prefix=f"/api/{version}/auth")
+app.include_router(auth_router,prefix=f"/api/{version}/auth",tags=['auth'])
