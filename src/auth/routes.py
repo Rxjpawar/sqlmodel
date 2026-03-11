@@ -3,14 +3,12 @@ from src.auth.schemas import UserCreateModel , UserModel, UserLoginModel
 from src.auth.service import UserService
 from src.db.main import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
-from src.auth.utils import create_access_token , decode_token
-from datetime import timedelta
+from src.auth.utils import create_access_token , verify_password
+from datetime import timedelta , datetime
 from fastapi.responses import JSONResponse
-from src.auth.utils import verify_password
-from src.auth.dependencies import RefreshTokenBearer
-from src.auth.dependencies import AccessTokenBearer
+from src.auth.dependencies import RefreshTokenBearer,AccessTokenBearer , get_current_user
 from src.db.redis import add_jti_to_blocklist
-from datetime import datetime
+
 
 auth_router = APIRouter()
 refresh_token_bearer= RefreshTokenBearer()
@@ -84,3 +82,7 @@ async def revoke_token(token_details:dict= Depends(access_token_bearer)):
     return JSONResponse(
         content={"message":"logged out successfully"},status_code=status.HTTP_200_OK
     )
+
+@auth_router.get("/me")
+async def get_current_user(user = Depends(get_current_user)):
+    return user
