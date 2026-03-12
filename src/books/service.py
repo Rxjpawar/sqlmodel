@@ -13,14 +13,20 @@ class BookService:
         statement = select(Book).order_by(Book.created_at)
         result = await self.session.execute(statement)
         return result.scalars().all()
+    
+    async def get_user_books(self,user_uid:str):
+        statement = select(Book).where(Book.user_uid==user_uid).order_by(Book.created_at)
+        result = await self.session.execute(statement)
+        return result.scalars().all()
 
     async def get_book(self, book_uid: str):
         statement = select(Book).where(Book.uid == book_uid)
         result = await self.session.execute(statement)
         return result.scalar_one_or_none()
 
-    async def create_book(self, book_data: BookCreate):
+    async def create_book(self, book_data: BookCreate, user_uid: str):
         new_book = Book(**book_data.model_dump())
+        new_book.user_uid= user_uid
         self.session.add(new_book)
         await self.session.commit()
         await self.session.refresh(new_book)
