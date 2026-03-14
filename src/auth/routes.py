@@ -1,5 +1,5 @@
 from fastapi import APIRouter , Depends, HTTPException , status
-from src.auth.schemas import UserCreateModel , UserModel, UserLoginModel
+from src.auth.schemas import UserCreateModel , UserModel, UserLoginModel , UserBooks
 from src.auth.service import UserService
 from src.db.main import get_session
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -87,6 +87,6 @@ async def revoke_token(token_details:dict= Depends(access_token_bearer)):
         content={"message":"logged out successfully"},status_code=status.HTTP_200_OK
     )
 
-@auth_router.get("/me",response_model=UserModel)
+@auth_router.get("/me",response_model=UserBooks)
 async def get_current_user(user = Depends(get_current_user),_:bool = Depends(role_cheker)):
     return user

@@ -20,10 +20,13 @@ class UserModel(BaseModel):
     is_varified: bool
     created_at: datetime
     updated_at: datetime
-    books:List[BookModel]
 
     class Config:
         from_attributes = True  # important for SQLModel
+
+class UserBooks(UserModel):
+    books:List[BookModel]
+
 
 class UserLoginModel(BaseModel):
     email:str=Field(max_length=40)
