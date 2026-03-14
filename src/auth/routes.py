@@ -21,7 +21,8 @@ REFRESH_TOKEN_EXPIRY = 2
 @auth_router.post("/signup",response_model=UserModel)
 async def create_user_account(user_data:UserCreateModel,session:AsyncSession = Depends(get_session),):
     email = user_data.email
-    user_exits = await UserService(session=session).user_exits(email=email)
+    username = user_data.username
+    user_exits = await UserService(session=session).user_exits(email=email,username=username)
 
     if user_exits == True:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="user alredy exits")

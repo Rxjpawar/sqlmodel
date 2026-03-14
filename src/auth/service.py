@@ -14,12 +14,16 @@ class UserService():
         user = result.scalar_one_or_none()
         return user
     
-    async def user_exits(self,email:str)->bool:
-        user = await self.get_user_by_email(email)
-        if user is None:
-            return False
-        else:
-            return True
+    async def get_user_by_username(self,username:str):
+        statement = select(User).where(User.username == username)
+        result = await self.session.execute(statement)
+        user = result.scalar_one_or_none()
+        return user
+    
+    async def user_exits(self,email:str, username:str)->bool:
+        user_by_email = await self.get_user_by_email(email)
+        user_by_username = await self.get_user_by_username(username)
+        return user_by_email is not None or user_by_username is not None
     
     async def create_user(self,user_data:UserCreateModel):
         user_data_dict  = user_data.model_dump()
