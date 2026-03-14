@@ -14,7 +14,7 @@ class Book(SQLModel,table=True):
     user_uid:Optional[UUID]=Field(default=None,foreign_key="users.uid")
     created_at:datetime=Field(sa_column =Column(pg.TIMESTAMP),default=datetime.now())
     updated_at:datetime=Field(sa_column =Column(pg.TIMESTAMP),default=datetime.now())
-    #users:Optional['models.User']=Relationship(back_populates="books")
+    users:Optional['models.User']=Relationship(back_populates="books")
 
     def __repr__(self)->str:
         return f"Book=>{self.title}"
