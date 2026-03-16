@@ -4,7 +4,7 @@ from typing import List
 from http import HTTPStatus
 from src.db.main import get_session
 from src.books.service import BookService
-from src.books.schemas import BookResponse, BookCreate, BookUpdate
+from src.books.schemas import BookResponse, BookCreate, BookUpdate, BookDetails
 from src.auth.dependencies import AccessTokenBearer, RoleCheker
 
 book_router = APIRouter()
@@ -23,7 +23,7 @@ async def get_all_books(
     books = await BookService(session).get_all_books()
     return books
 
-@book_router.get("/user/{user_uid}", response_model=List[BookResponse])
+@book_router.get("/user/{user_uid}", response_model=List[BookDetails])
 async def get_all_books(
     user_uid:str,
     session: AsyncSession = Depends(get_session),

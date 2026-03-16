@@ -3,6 +3,8 @@ from datetime import datetime
 from uuid import UUID
 from typing_extensions import List
 from src.books.schemas import BookModel
+from src.reviews.schemas import ReviewModel
+
 class UserCreateModel(BaseModel):
     first_name:str=Field(max_length=10)
     last_name:str=Field(max_length=10)
@@ -26,6 +28,7 @@ class UserModel(BaseModel):
 
 class UserBooks(UserModel):
     books:List[BookModel]
+    #review:List[ReviewModel]
 
 
 class UserLoginModel(BaseModel):

@@ -2,7 +2,8 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 from uuid import UUID
-
+from typing_extensions import List
+from src.reviews.schemas import ReviewModel
 class BookResponse(BaseModel):
     uid: UUID
     title: str
@@ -14,6 +15,9 @@ class BookResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class BookDetails(BaseModel):
+    review:List[ReviewModel]
 
 class BookCreate(BaseModel):
     title:str
